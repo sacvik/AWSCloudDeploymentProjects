@@ -1,0 +1,38 @@
+name: End-to-End CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-train-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+      - name: Install dependencies for model
+        run: pip install -r model/requirements.txt
+      - name: Train and Evaluate
+        run: |
+          python model/train.py
+          python model/evaluate.py
+      - name: Copy Artifacts
+        run: |
+          cp model/artifacts/model.joblib lambda/
+          cp model/artifacts/vectorizer.joblib lambda/
+      - name: Install Lambda deps
+        run: pip install -r lambda/requirements.txt -t lambda/
+      - name: Create Lambda zip
+        run: cd lambda && zip -r ../lambda.zip .
+      - name: Deploy Lambda
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.LAMBDA_UPLOAD_HOST }}
+          username: ${{ secrets.LAMBDA_USER }}
+          key: ${{ secrets.LAMBDA_SSH_KEY }}
+          source: "lambda.zip"
+          target: "/tmp/lambda.zip"
+      # Optional: Add AWS CLI commands to update/deploy the Lambda code from the zip
