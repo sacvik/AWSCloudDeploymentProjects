@@ -5,8 +5,6 @@ __pycache__/
 env/
 .venv/
 *.db
-model/artifacts/*
-!model/artifacts/.gitkeep
 lambda/__pycache__/
 lambda/*.egg-info/
 lambda/build/
