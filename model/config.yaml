@@ -1,0 +1,9 @@
+train_data_path: "data/train.csv"           # path to training data
+test_data_path: "data/test.csv"             # path to test data
+feature_column: "text"                      # text column name
+target_column: "category"                      # label column
+artifacts_dir: "model/artifacts"
+val_split: 0.2
+max_iter: 500
+random_seed: 42
+max_features: 5000

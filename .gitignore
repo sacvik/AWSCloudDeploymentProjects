@@ -1,2 +1,13 @@
-.env
-.venv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+.venv/
+*.db
+model/artifacts/*
+!model/artifacts/.gitkeep
+lambda/__pycache__/
+lambda/*.egg-info/
+lambda/build/
+lambda/dist/
