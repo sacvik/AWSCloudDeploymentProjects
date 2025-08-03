@@ -1,4 +1,4 @@
-name: End-to-End CI/CD
+name: Topic Prediction
 
 on:
   push:
